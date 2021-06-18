@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {CATEGORIES, MEALS} from '../../data/dummy-data';
 import MealItem from '../MealItem';
 
+
 const CategoryMealScreen = props => {
     const renderMealItem = itemData => {
         return(
@@ -13,7 +14,9 @@ const CategoryMealScreen = props => {
           complexity={itemData.item.complexity}
           affordability={itemData.item.affordability} 
           onSelectMeal={()=>{
-
+              props.navigation.navigate({routeName:'MealDetail', params:{
+                  mealId:itemData.item.id
+              }})
           }}/>
         );
     }
