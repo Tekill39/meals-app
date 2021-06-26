@@ -15,13 +15,12 @@ import FilterScreen from '../components/screens/FilterScreen';
 // import { BottomNavigation } from 'react-native-paper';
 
 const defaultStackNavOptions = {
-   defaultNavigationOptions:{
+   
     headerStyle:{
       backgroundColor:Platform.OS === 'android' ? COLOR.primaryColor :'white'
     },
     headerTintColor:Platform.OS === 'android' ? 'white' : COLOR.primaryColor,
     headerTitle:'A Screen'
-  }
 }
 const MealsNavigator = createStackNavigator({
   Categories:CategoriesScreen,
@@ -43,7 +42,9 @@ const FavNavigator = createStackNavigator(
 );
 
 const MealsFavTabNavigator = createBottomTabNavigator({
-Meals:{screen:MealsNavigator, navigationOptions:{
+Meals: {
+  screen:MealsNavigator,
+  navigationOptions:{
   tabBarIcon:(tabInfo) => {
     return<Ionicons 
       name="ios-restaurant" 
@@ -77,7 +78,8 @@ tabBarOptions: {
 });
 const FilterNavigator = createStackNavigator({
   Filters:FilterScreen
-})
+}, { defaultNavigationOptions:defaultStackNavOptions
+});
 const MainNavigator = createDrawerNavigator({
   MealsFavs: MealsFavTabNavigator,
   Filters:FilterNavigator
