@@ -9,21 +9,38 @@ import MealDetailScreen from '../components/screens/MealDetailScreen';
 import COLOR from '../constant/Colors';
 import FavoritesScreen from '../components/screens/FavoritesScreen';
 import { Ionicons } from '@expo/vector-icons';
+import { createDrawerNavigator } from 'react-navigation-drawer';
+import FilterScreen from '../components/screens/FilterScreen';
+// import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+// import { BottomNavigation } from 'react-native-paper';
 
+const defaultStackNavOptions = {
+   defaultNavigationOptions:{
+    headerStyle:{
+      backgroundColor:Platform.OS === 'android' ? COLOR.primaryColor :'white'
+    },
+    headerTintColor:Platform.OS === 'android' ? 'white' : COLOR.primaryColor,
+    headerTitle:'A Screen'
+  }
+}
 const MealsNavigator = createStackNavigator({
   Categories:CategoriesScreen,
   MealDetail:MealDetailScreen,
   CategoryMeals:{
       screen:CategoryMealScreen
   }  
-  }, { defaultNavigationOptions:{
-    headerStyle:{
-      backgroundColor:Platform.OS=== 'android' ? COLOR.primaryColor :'white'
-    },
-    headerTintColor:Platform.OS=== 'android' ? 'white' : COLOR.primaryColor
-  }
-
+  }, { defaultNavigationOptions:defaultStackNavOptions
 });
+
+const FavNavigator = createStackNavigator(
+{
+  Favorites:FavoritesScreen,
+  MealDetail:MealDetailScreen
+},
+{
+  defaultNavigationOptions:defaultStackNavOptions
+}
+);
 
 const MealsFavTabNavigator = createBottomTabNavigator({
 Meals:{screen:MealsNavigator, navigationOptions:{
@@ -32,10 +49,11 @@ Meals:{screen:MealsNavigator, navigationOptions:{
       name="ios-restaurant" 
       size={25}
       color={tabInfo.tintColor}/>
-  }
+  },
+  tabBarColor:COLOR.primaryColor
 }},
 Favorites:{
-  screen:FavoritesScreen,
+  screen:FavNavigator,
   navigationOptions:{
   tabBarlabel:'Favorites',  
   tabBarIcon:(tabInfo) => {
@@ -43,7 +61,8 @@ Favorites:{
       name="ios-star" 
       size={25}
       color={tabInfo.tintColor}/>
-  }
+  },
+  tabBarColor:COLOR.accentColor
 }}
 },{
 tabBarOptions: {
@@ -52,9 +71,16 @@ tabBarOptions: {
     fontSize: 14,
   },
   // style: {
-  //   backgroundColor: 'blue',
+  //   backgroundColor: COLOR.accentColor,
   // },
 }
 });
+const FilterNavigator = createStackNavigator({
+  Filters:FilterScreen
+})
+const MainNavigator = createDrawerNavigator({
+  MealsFavs: MealsFavTabNavigator,
+  Filters:FilterNavigator
+})
 
-export default createAppContainer(MealsFavTabNavigator);
+export default createAppContainer(MainNavigator);
