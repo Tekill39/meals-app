@@ -18,6 +18,7 @@ const MealDetailScreen = props => {
     const currentMealIsFavorite = useSelector(state=>
          state.meals.favoriteMeals.some(meal=> meal.id === mealId));
     const selectedMeal = availableMeals.find(meal=> meal.id === mealId);
+    
     const dispatch = useDispatch();
 
     const toggleFavoriteHandler = useCallback(() => {
